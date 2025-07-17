@@ -102,9 +102,11 @@ Displays chat messages with features like:
 
    ```bash
    OPENAI_API_KEY=your_openai_api_key_here
+   OCTAVE_API_KEY=your_octave_api_key_here
+   OCTAVE_ENRICH_COMPANY_OID=your_enrich_company_agent_oid
+   OCTAVE_ENRICH_PERSON_OID=your_enrich_person_agent_oid
+   OCTAVE_SEQUENCE_OID=your_sequence_agent_oid
    ```
-
-   Get your API key from: https://platform.openai.com/api-keys
 
 3. **Start development server**:
 
@@ -127,7 +129,7 @@ Once the application is running, you can interact with the AI using natural lang
 The application integrates with:
 
 - **OpenAI GPT-4**: For intelligent conversation and function calling
-- **Custom Tools**: Three specialized functions for customer research (currently using placeholder implementations)
+- **Custom Tools**: Three specialized functions for customer research using the Octave API
 
 ### Tool Implementation
 
@@ -151,12 +153,12 @@ The three AI tools are currently implemented as placeholder functions in `src/ut
 
 ## Future Enhancements
 
-- Integration with actual Octave agents for real data
+- Advanced message formatting
+- Change tool-calling to an MCP client/server
+- Unit testing
 - User authentication and session management
 - Chat history persistence
 - Message export functionality
-- Advanced message formatting
-- File attachment support
 - Rate limiting and usage analytics
 
 ## Development
@@ -168,9 +170,9 @@ The application is set up with:
 - Tailwind CSS for styling
 - Hot reloading for development
 
-## Developer Timeline
+### Timeline
 
-### 1 Hour:
+#### 1 Hour:
 
 - Refamiliarize myelf with NextJS stup
 - Some initial research on Octive features and API
@@ -189,7 +191,7 @@ The application is set up with:
 
 - Review generated code and update instructions
 
-### 1 Hour
+#### 1 Hour
 
 - OpenAI Integration Implementation
   - Prompt used:
@@ -214,7 +216,7 @@ The base URL will be @https://dev.octavehq.com and the `agentOId` will come from
 
 - Review and debug calls to the enrichCompany tool
 
-### 2.5 Hours
+#### 2.5 Hours
 
 - Reveiw OpenAI tool calling interfaces and features.
   - Update tool calling to return structured data

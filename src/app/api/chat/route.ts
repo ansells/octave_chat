@@ -99,7 +99,7 @@ If the tool call failed and the user explcitly asked to enrich a company/person 
             const result = await toolFunctions[
               functionName as keyof typeof toolFunctions
             ](functionArgs);
-            console.log('result', result);
+            // console.debug('result', result);
             sources.push(functionName);
             messages.push({
               role: 'tool',

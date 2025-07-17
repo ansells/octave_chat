@@ -5,6 +5,8 @@ import {
 } from '@/types/chat';
 
 // Tool function implementations
+// TODO: move these to a separate file for the Octave API
+// TODO: define response schemas for the api responses
 export async function enrichCompany(
   params: EnrichCompanyParams
 ): Promise<object> {
@@ -48,7 +50,7 @@ export async function enrichCompany(
 
     // Return the structured data directly
     console.log('Enrichment data found for company domain:', companyDomain);
-    console.debug('Enrichment data:', data.data);
+    // console.debug('Enrichment data:', data.data);
     return {
       found: true,
       companyDomain,
@@ -109,7 +111,7 @@ export async function enrichPerson(
 
     // Return the structured data directly
     console.log('Enrichment data found for LinkedIn profile:', linkedInProfile);
-    console.debug('Enrichment data:', data.data);
+    // console.debug('Enrichment data:', data.data);
     return {
       found: true,
       linkedInProfile,
@@ -167,7 +169,7 @@ export async function generateEmails(
 
     // Return the structured data directly
     console.log('Emails generated for LinkedIn profile:', linkedInProfile);
-    console.debug('Generated emails:', data.data);
+    // console.debug('Generated emails:', data.data);
     return {
       found: true,
       linkedInProfile,
