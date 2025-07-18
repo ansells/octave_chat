@@ -143,6 +143,7 @@ The three AI tools are currently implemented as placeholder functions in `src/ut
 - **Tailwind CSS**: Utility-first CSS framework
 - **Lucide React**: Beautiful icons
 - **React 19**: UI library
+- **React Markdown**: Markdown rendering
 
 ## Security Considerations
 
@@ -151,11 +152,13 @@ The three AI tools are currently implemented as placeholder functions in `src/ut
 - Error handling for API failures
 - No sensitive data logging
 
-## Future Enhancements
+## Future Enhancements / TODOs
 
-- Advanced message formatting
 - Change tool-calling to an MCP client/server
 - Unit testing
+- Add support for access to the structured data returned by the tools
+  - Link to export enriched data to a CSV file
+  - Link to automatically compose an email to the person
 - User authentication and session management
 - Chat history persistence
 - Message export functionality
@@ -232,6 +235,7 @@ OK. Lets fill in the enrichPerson and generateEmails functions
 
 - Fill in details of tool calls to `enrichPerson` and `generateEmails`
 - Debugging of tool flow with OpenAI calls and some prompt engineering
+- Add React Markdown to the ChatOutput component
 
 ## License
 

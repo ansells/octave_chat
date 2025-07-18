@@ -17,15 +17,15 @@ export default function ChatInstructions() {
             <ul className="list-disc list-inside">
               <li>
                 Ask for enriched information about a company (provide a company
-                domain (i.e. example.com) for more reliable results)
+                domain like example.com for more reliable results)
               </li>
               <li>
                 Ask for enriched information about a person at a company
                 (provide a linkedin profile URL for more reliable results)
               </li>
               <li>
-                Generate emails to send to a person at a company (provide a
-                linkedin profile URL for more reliable results)
+                Ask to generate emails to send to a person at a company (provide
+                a linkedin profile URL for more reliable results)
               </li>
             </ul>
           </div>

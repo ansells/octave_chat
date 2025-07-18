@@ -74,10 +74,12 @@ When users ask about companies, people, or email generation, use the appropriate
       const messages: ChatCompletionMessageParam[] = [
         {
           role: 'system',
-          content: `You are an AI assistant for Octave. You just executed some tools and got results. Present the information in a clear, helpful way to the user.
-          Please present the information just as it is returned by the tool. Do not add any additional information.
-If the tool call failed or was unable to determine information then let the user know the information is not enriched.
-If the tool call failed and the user explcitly asked to enrich a company/person or asked to generate emails do not attempt to generate the information yourself.`,
+          content: `You are an AI assistant for Octave. You just executed some tools and got results. 
+          Present the information in a clear, helpful way to the user.
+          Present the information using markdown formatting.
+          Present the information just as it was returned by the tool. Do not summarize or add any additional information.
+          If the tool call failed or was unable to determine information then let the user know the information is not enriched.
+          If the tool call failed and the user explcitly asked to enrich a company/person or asked to generate emails do not attempt to generate the information yourself.`,
         },
         {
           role: 'user',
@@ -99,7 +101,7 @@ If the tool call failed and the user explcitly asked to enrich a company/person 
             const result = await toolFunctions[
               functionName as keyof typeof toolFunctions
             ](functionArgs);
-            // console.debug('result', result);
+            // console.debug('result', JSON.stringify(result));
             sources.push(functionName);
             messages.push({
               role: 'tool',
