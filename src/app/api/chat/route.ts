@@ -1,16 +1,20 @@
 import { NextRequest, NextResponse } from 'next/server';
 import OpenAI from 'openai';
 import { tools, toolFunctions } from '@/utils/tools';
-import { ChatResponse } from '@/types/chat';
-import { ChatCompletionMessageParam } from 'openai/resources';
+import { ChatMessageRequest, ChatResponse } from '@/types/chat';
+import {
+  ChatCompletionMessageParam,
+  ChatCompletionMessageToolCall,
+} from 'openai/resources';
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
+// TODO: Move the OpenAI requests and prompt management to a separate file
 export async function POST(request: NextRequest) {
   try {
-    const { message } = await request.json();
+    const { message } = (await request.json()) as ChatMessageRequest;
 
     if (!message) {
       return NextResponse.json(
@@ -25,48 +29,58 @@ export async function POST(request: NextRequest) {
         { status: 500 }
       );
     }
-
     const startTime = Date.now();
-
-    // Create chat completion with tools
-    const completion = await openai.chat.completions.create({
-      model: 'gpt-4-turbo-preview', // TODO: Make this configurable
-      messages: [
-        {
-          role: 'system',
-          content: `You are an AI assistant for Octave, a company that helps with customer research and outreach. You have access to three specialized tools to help users:
+    let finalContent = '';
+    let toolCalls: ChatCompletionMessageToolCall[] = [];
+    const messages: ChatCompletionMessageParam[] = [
+      {
+        role: 'system',
+        content: `You are an AI assistant for Octave, a company that helps with customer research and outreach. You have access to three specialized tools to help users:
 
 1. enrichCompany - Use this to get detailed information about a company when provided with their domain. 
-  - If the domain is not provided, you should attempt to determine it.
-  - If you cannot determine the domain, you should ask the user to provide it.
+- If the domain is not provided, you should attempt to determine it.
+- If you cannot determine the domain, you should ask the user to provide it.
 2. enrichPerson - Use this to get detailed information about a person when provided with their LinkedIn profile URL. 
-  - If the LinkedIn profile URL is not provided, you should attempt to determine it.
-  - If you cannot determine the LinkedIn profile URL, you should ask the user to provide it.
-  - If the user has asked to generate emails, you should not use this tool.
+- If the LinkedIn profile URL is not provided, you should attempt to determine it.
+- If you cannot determine the LinkedIn profile URL, you should ask the user to provide it.
+- If the user has asked to generate emails, you should not use this tool.
 3. generateEmails - Use this to create personalized emails for outreach when provided with a person's LinkedIn profile URL. 
-  - If the LinkedIn profile URL is not provided, you should attempt to determine it.
-  - If you cannot determine the LinkedIn profile URL, you should ask the user to provide it.
-  - If the user has not asked to generate emails, you should not use this tool.
+- If the LinkedIn profile URL is not provided, you should attempt to determine it.
+- If you cannot determine the LinkedIn profile URL, you should ask the user to provide it.
+- If the user has not asked to generate emails, you should not use this tool.
 
 When users ask about companies, people, or email generation, use the appropriate tools. Always be helpful and provide clear, actionable information based on the tool results.`,
-        },
-        {
-          role: 'user',
-          content: message,
-        },
-      ],
-      tools: tools,
-      tool_choice: 'auto',
-    });
+      },
+      {
+        role: 'user',
+        content: message,
+      },
+    ];
 
-    const responseMessage = completion.choices[0]?.message;
+    try {
+      // Create chat completion with tools
+      const completion = await openai.chat.completions.create({
+        model: 'gpt-4-turbo-preview', // TODO: Make this configurable
+        messages,
+        tools: tools,
+        tool_choice: 'auto',
+      });
 
-    if (!responseMessage) {
-      throw new Error('No response from OpenAI');
+      const responseMessage = completion.choices[0]?.message;
+
+      if (!responseMessage) {
+        throw new Error('No response from OpenAI');
+      }
+
+      finalContent = responseMessage.content || '';
+      toolCalls = responseMessage.tool_calls || [];
+    } catch (error) {
+      console.error('Error processing chat message:', error);
+      return NextResponse.json(
+        { error: 'Internal server error' },
+        { status: 500 }
+      );
     }
-
-    let finalContent = responseMessage.content || '';
-    const toolCalls = responseMessage.tool_calls || [];
     const sources: string[] = [];
     const toolResults: Map<string, string> = new Map();
     // Execute any tool calls
@@ -116,13 +130,21 @@ When users ask about companies, people, or email generation, use the appropriate
       }
 
       // Get a follow-up response from OpenAI with the tool results
-      const followUpCompletion = await openai.chat.completions.create({
-        model: 'gpt-4-turbo-preview',
-        messages: messages,
-      });
+      try {
+        const followUpCompletion = await openai.chat.completions.create({
+          model: 'gpt-4-turbo-preview',
+          messages: messages,
+        });
 
-      finalContent =
-        followUpCompletion.choices[0]?.message?.content || finalContent;
+        finalContent =
+          followUpCompletion.choices[0]?.message?.content || finalContent;
+      } catch (error) {
+        console.error('Error processing chat message:', error);
+        return NextResponse.json(
+          { error: 'Internal server error' },
+          { status: 500 }
+        );
+      }
     }
 
     const processingTime = Date.now() - startTime;

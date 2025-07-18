@@ -1,3 +1,7 @@
+export interface ChatMessageRequest {
+  message: string;
+}
+
 export interface ChatMessage {
   id: string;
   content: string;
