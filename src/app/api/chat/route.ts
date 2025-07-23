@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import OpenAI from 'openai';
-import { tools, toolFunctions } from '@/utils/tools';
-import { ChatMessageRequest, ChatResponse } from '@/types/chat';
+import { localTools, toolFunctions } from '@/app/utils/tools';
+import { ChatMessageRequest, ChatResponse } from '@/app/types/chat';
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
@@ -60,7 +60,7 @@ When users ask about companies, people, or email generation, use the appropriate
           model: 'gpt-4o', // Updated to a model that supports Responses API
           instructions: systemInstructions,
           input,
-          tools,
+          tools: localTools,
           tool_choice: 'auto',
           store: false, // Don't store conversation state for now
         }

@@ -7,7 +7,7 @@ import {
   afterAll,
   vi,
 } from 'vitest';
-import { enrichCompany, enrichPerson, generateEmails } from '@/utils/tools';
+import { enrichCompany, enrichPerson, generateEmails } from '@/app/utils/tools';
 import { server } from '../__mocks__/server';
 
 // Start server before all tests

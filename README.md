@@ -37,6 +37,60 @@ The application includes three specialized AI tools for customer research:
 - **Purpose**: Creates personalized emails for outreach based on the person's profile
 - **Usage**: Ask the AI to generate emails for a specific person by providing their LinkedIn profile URL
 
+## MCP Server Configuration
+
+The application uses an HTTP MCP (Model Context Protocol) server that runs as a separate Express server process.
+
+### HTTP MCP Server (Current Configuration)
+
+The current setup uses an HTTP MCP server that runs on port 3001 and provides RESTful endpoints for the MCP protocol.
+
+**To use the HTTP MCP server:**
+
+1. **Build the MCP server:**
+
+   ```bash
+   npm run build:mcp
+   ```
+
+2. **Run the MCP server independently:**
+
+   ```bash
+   npm run mcp-server
+   ```
+
+   This will start the server on `http://localhost:3001`
+
+3. **The server is configured** in `src/app/utils/tools.ts` with the current configuration:
+   ```typescript
+   export const mcpTools = [
+     {
+       type: 'mcp',
+       server_label: 'octave-mcp',
+       server_url: 'http://localhost:3001/mcp',
+       require_approval: 'never',
+     },
+   ];
+   ```
+
+### MCP Server Implementation
+
+The MCP server is implemented using:
+
+- **Express.js**: HTTP server framework
+- **@modelcontextprotocol/sdk**: MCP protocol implementation
+- **StreamableHTTPServerTransport**: HTTP transport layer for MCP
+
+The server accepts POST requests to `/mcp` endpoint and handles MCP protocol messages over HTTP.
+
+### MCP Server Features
+
+The MCP server provides three tools:
+
+1. **enrichCompany** - Company data enrichment using domain
+2. **enrichPerson** - Person profile enrichment using LinkedIn URL
+3. **generateEmails** - Email sequence generation for outreach
+
 ## Project Structure
 
 ```
@@ -157,7 +211,7 @@ The three AI tools are currently implemented as placeholder functions in `src/ut
 
 ## Future Enhancements / TODOs
 
-- Change tool-calling to an MCP client/server
+- ~~Change tool-calling to an MCP client/server~~ ✅ **Completed**: MCP HTTP server implemented
 - Add support for access to the structured data returned by the tools
   - Link to export enriched data to a CSV file
   - Link to automatically compose an email to the person

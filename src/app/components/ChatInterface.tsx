@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { ChatMessage } from '@/types/chat';
+import { ChatMessage } from '@/app/types/chat';
 import ChatInstructions from './ChatInstructions';
 import ChatOutput from './ChatOutput';
 import ChatInput from './ChatInput';

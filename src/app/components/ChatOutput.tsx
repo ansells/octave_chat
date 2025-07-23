@@ -4,7 +4,7 @@ import { useEffect, useRef } from 'react';
 import { User, Bot, Clock } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import { ChatMessage } from '@/types/chat';
+import { ChatMessage } from '@/app/types/chat';
 
 interface ChatOutputProps {
   messages: ChatMessage[];

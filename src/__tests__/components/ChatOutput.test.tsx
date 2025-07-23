@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { vi, beforeEach } from 'vitest';
-import ChatOutput from '@/components/ChatOutput';
-import { ChatMessage } from '@/types/chat';
+import ChatOutput from '@/app/components/ChatOutput';
+import { ChatMessage } from '@/app/types/chat';
 
 // Mock scrollIntoView method which is not available in JSDOM
 Object.defineProperty(Element.prototype, 'scrollIntoView', {

@@ -1,8 +1,8 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { vi } from 'vitest';
-import ChatInterface from '@/components/ChatInterface';
+import ChatInterface from '@/app/components/ChatInterface';
 import { server } from '../__mocks__/server';
-import { ChatMessage } from '@/types/chat';
+import { ChatMessage } from '@/app/types/chat';
 
 // Mock the child components to focus on ChatInterface logic
 vi.mock('@/components/ChatInstructions', () => ({

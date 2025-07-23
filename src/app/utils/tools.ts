@@ -6,7 +6,7 @@ import {
   EnrichCompanyResponse,
   EnrichPersonResponse,
   GenerateEmailsResponse,
-} from '@/utils/octaveAPI';
+} from '@/octave/octaveAPI';
 
 // Tool function implementations
 const octaveAPI = new OctiveAPI(true);
@@ -30,7 +30,7 @@ export async function generateEmails(
 }
 
 // Tool definitions for OpenAI
-export const tools = [
+export const localTools = [
   {
     type: 'function' as const,
     name: 'enrichCompany',
@@ -87,6 +87,15 @@ export const tools = [
       required: ['linkedInProfile'],
       additionalProperties: false,
     },
+  },
+];
+
+export const mcpTools = [
+  {
+    type: 'mcp' as const,
+    server_label: 'octave-mcp',
+    server_url: 'http://localhost:3001/mcp',
+    require_approval: 'never',
   },
 ];
 

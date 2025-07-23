@@ -4,7 +4,7 @@ import {
   EnrichCompanyParams,
   EnrichPersonParams,
   GenerateEmailsParams,
-} from '@/types/chat';
+} from '@/app/types/chat';
 
 const handlers = [
   // Mock Octave Company Enrichment API
