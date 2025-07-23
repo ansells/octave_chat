@@ -182,7 +182,7 @@ export class OctaveMCP {
     this.app.listen(this.port, (error?: Error | null) => {
       if (error) {
         console.error('Error starting MCP server', error);
-        process.exit(1);
+        throw error;
       }
       console.log(`MCP server listening on port ${this.port}`);
     });

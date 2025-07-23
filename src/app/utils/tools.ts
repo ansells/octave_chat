@@ -96,6 +96,7 @@ export const mcpTools = [
     server_label: 'octave-mcp',
     server_url: 'http://localhost:3001/mcp',
     require_approval: 'never',
+    allowed_tools: ['enrichCompany', 'enrichPerson', 'generateEmails'],
   },
 ];
 
