@@ -29,16 +29,3 @@ export interface ChatResponse {
     toolCalls?: ToolCall[];
   };
 }
-
-// Tool function types
-export interface EnrichCompanyParams {
-  companyDomain: string;
-}
-
-export interface EnrichPersonParams {
-  linkedInProfile: string;
-}
-
-export interface GenerateEmailsParams {
-  linkedInProfile: string;
-}
