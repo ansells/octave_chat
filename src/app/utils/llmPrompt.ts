@@ -1,6 +1,6 @@
 import OpenAI from 'openai';
 import { localTools, toolFunctions } from '@/app/utils/tools';
-import { ChatMessageRequest, ChatResponse, ToolCall } from '@/app/types/chat';
+import { ChatResponse, ToolCall } from '@/app/types/chat';
 
 export class LLMPrompt {
   static toolInstructions = `You are an AI assistant for Octave, a company that helps with customer research and outreach. You have access to three specialized tools to help users:
